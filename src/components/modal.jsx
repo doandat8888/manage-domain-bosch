@@ -2,10 +2,10 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import ButtonGeneral from './buttons';
 import { useEffect, useState } from 'react';
-import ipdomainService from '../services/ipdomainService';
-import variables from '../variables';
-import regexes from '../utils/regexes.js';
-import matchRegexes from '../utils/matchRegexes';
+import IpdomainService from '../services/ipdomainService';
+import Variables from '../variables';
+import Regexes from '../utils/regexes.js';
+import MatchRegexes from '../utils/matchRegexes';
 
 const ModalIPDomain = (props) => {
 
@@ -28,8 +28,8 @@ const ModalIPDomain = (props) => {
     const onHandleIPDomain = async(type) => {
         if(typeModal === "delete") {
             try {
-                let response = await ipdomainService.deleteIPDomain(ipDomainEdit?._id);
-                if(response && response.status === variables.SUCCESS_DELETE) {
+                let response = await IpdomainService.deleteIPDomain(ipDomainEdit?._id);
+                if(response && response.status === Variables.SUCCESS_DELETE) {
                     alert("Delete successfully!");
                     refreshData();
                 }
@@ -40,35 +40,35 @@ const ModalIPDomain = (props) => {
         }else {
             if(!ipAddress || !domainName) {
                 alert("Missing ip or domain name value");
-            }else if(matchRegexes.matchesAnyRegex(ipAddress, regexes.blackList)) {
+            }else if(MatchRegexes.matchesAnyRegex(ipAddress, Regexes.blackList)) {
                 alert("Node is invalid. Please try another one!");
-            }else if(matchRegexes.matchesAnyRegex(domainName, regexes.blackList)) {
+            }else if(MatchRegexes.matchesAnyRegex(domainName, Regexes.blackList)) {
                 alert("Target is invalid. Please try another one!");
             }
             else {
                 if(type === "add") {
                     try {
-                        let response = await ipdomainService.addNewIPDomain(ipAddress, domainName);
-                        if(response && response.status === variables.SUCCESS_ADD) {
+                        let response = await IpdomainService.addNewIPDomain(ipAddress, domainName);
+                        if(response && response.status === Variables.SUCCESS_ADD) {
                             alert("Add new node and target successfully!");
                             handleClose();
                             refreshData();
                         }
                     } catch (error) {
-                        if(error.response.status === variables.FAIL) {
+                        if(error.response.status === Variables.FAIL) {
                             alert(error.response.data.msg);
                         }
                     }
                 }else if(type === "edit") {
                     try {
-                        let response = await ipdomainService.updateIPDomain(ipDomainEdit?._id, ipAddress, domainName);
-                        if(response && response.status === variables.SUCCESS_EDIT) {
+                        let response = await IpdomainService.updateIPDomain(ipDomainEdit?._id, ipAddress, domainName);
+                        if(response && response.status === Variables.SUCCESS_EDIT) {
                             alert("Update info successfully!");
                             handleClose();
                             refreshData();
                         }
                     } catch (error) {
-                        if(error.response.status === variables.FAIL) {
+                        if(error.response.status === Variables.FAIL) {
                             alert(error.response.data.msg);
                         }
                     }
