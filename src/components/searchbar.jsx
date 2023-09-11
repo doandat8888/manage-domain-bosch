@@ -15,7 +15,7 @@ const SearchBar = (props) => {
             <Form.Control
                 aria-label="Example text with button addon"
                 aria-describedby="basic-addon1"
-                placeholder='Enter ip address to search'
+                placeholder='Enter node to search'
                 onChange={(e) => changeSearchBarTxt(e.target.value)}
             />
         </InputGroup>

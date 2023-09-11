@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import ipdomainService from '../services/ipdomainService';
 import variables from '../variables';
 import regexes from '../utils/regexes.js';
+import matchRegexes from '../utils/matchRegexes';
 
 const ModalIPDomain = (props) => {
 
@@ -33,23 +34,23 @@ const ModalIPDomain = (props) => {
                     refreshData();
                 }
             } catch (error) {
-                alert("Error delete ip address and domain name: ", error);
+                alert("Error delete node and target: ", error);
             }
             handleClose();
         }else {
             if(!ipAddress || !domainName) {
                 alert("Missing ip or domain name value");
-            }else if(!regexes.ipv4AddressPattern.test(ipAddress)) {
-                alert("Ip address is invalid. Please try another one!");
-            }else if(!regexes.domainNamePattern.test(domainName)) {
-                alert("Domain name is invalid. Please try another one!");
+            }else if(matchRegexes.matchesAnyRegex(ipAddress, regexes.blackList)) {
+                alert("Node is invalid. Please try another one!");
+            }else if(matchRegexes.matchesAnyRegex(domainName, regexes.blackList)) {
+                alert("Target is invalid. Please try another one!");
             }
             else {
                 if(type === "add") {
                     try {
                         let response = await ipdomainService.addNewIPDomain(ipAddress, domainName);
                         if(response && response.status === variables.SUCCESS_ADD) {
-                            alert("Add new ip address and domain name successfully!");
+                            alert("Add new node and target successfully!");
                             handleClose();
                             refreshData();
                         }
@@ -81,8 +82,8 @@ const ModalIPDomain = (props) => {
             <Modal.Header closeButton>
                 <Modal.Title>
                     {/* Can toi uu */}
-                    {typeModal !== "" && typeModal === "add" ? "Add new IP & Domain name" 
-                    : typeModal !== "" && typeModal === "edit" ? "Update IP & Domain name info" 
+                    {typeModal !== "" && typeModal === "add" ? "Add new node and target" 
+                    : typeModal !== "" && typeModal === "edit" ? "Update node & target info" 
                     : typeModal !== "" && typeModal === "delete" ? "Confirm delete" : ""}
                 </Modal.Title>
             </Modal.Header>
@@ -91,17 +92,17 @@ const ModalIPDomain = (props) => {
                     <Form>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         {/* Can toi uu */}
-                        <Form.Label>IP Address</Form.Label>
+                        <Form.Label>Node</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter your IP Address"
+                            placeholder="Enter your node"
                             onChange={(e) => setIPAddress(e.target.value)}
                             value={ipAddress}
                         />
-                        <Form.Label>Domain name</Form.Label>
+                        <Form.Label>Target</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter your domain name"
+                            placeholder="Enter your target"
                             onChange={(e) => setDomainName(e.target.value)}
                             value={domainName}
                         />

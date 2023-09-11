@@ -1,18 +1,18 @@
 import axios from "../axios";
 
 const getAllIPDomain = () => {
-    return axios.get(`/config`);
+    return axios.get(`/proxy`);
 }
 
 const addNewIPDomain = (origin, target) => {
-    return axios.post('/config', {
+    return axios.post('/proxy', {
         origin: origin,
         target: target
     })
 }
 
 const updateIPDomain = (id, origin, target) => {
-    return axios.put(`/config/${id}`, {
+    return axios.put(`/proxy/${id}`, {
         id: id,
         origin: origin,
         target: target
@@ -20,7 +20,7 @@ const updateIPDomain = (id, origin, target) => {
 }
 
 const deleteIPDomain = (id) => {
-    return axios.delete(`/config/${id}`);
+    return axios.delete(`/proxy/${id}`);
 }
 
 export default {

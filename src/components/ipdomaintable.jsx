@@ -19,8 +19,8 @@ const IPDomainTable = (props) => {
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>IP Address</th>
-                        <th>Domain name</th>
+                        <th>Node</th>
+                        <th>Target</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
