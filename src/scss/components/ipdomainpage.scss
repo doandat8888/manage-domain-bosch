@@ -1,0 +1,35 @@
+.ip-domain-page {
+    width: 100% !important;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #f3f3f3;
+    .body {
+        padding: 2rem;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        font-size: 16px;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+    .title {
+        margin-bottom: 2rem;
+    }
+    .search-area {
+        display: flex;
+        margin-bottom: 2rem;
+        justify-content: space-between;
+        .search-bar {
+            width: 70%;
+        }
+    }
+}
+

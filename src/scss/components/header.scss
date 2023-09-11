@@ -1,0 +1,14 @@
+.header {
+    margin-bottom: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid #ddd;
+    img {
+        width: 10%;
+        @include mobile {
+            width: 30%;
+        }
+        @include tablet {
+            width: 20%;
+        }
+    }
+}
