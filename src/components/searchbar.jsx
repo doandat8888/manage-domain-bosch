@@ -10,11 +10,11 @@ const SearchBar = (props) => {
     }
 
     return (
-        <InputGroup className="mb-3">
+        <InputGroup className="mb-3 search-bar">
             <Form.Control
                 aria-label="Example text with button addon"
                 aria-describedby="basic-addon1"
-                placeholder='Enter node to search'
+                placeholder='Search by node...'
                 onChange={(e) => changeSearchBarTxt(e.target.value)}
             />
         </InputGroup>

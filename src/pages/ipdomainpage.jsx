@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import IpdomainService from "../services/ipdomainService";
 import { isArray, isObject } from "lodash";
 import ModalIPDomain from "../components/modal";
-import Header from "../components/header";
+import { Pagination } from '@mui/material';
+import ipdomainService from "../services/ipdomainService";
 
 const IPDomainPage = () => {
 
@@ -15,10 +16,50 @@ const IPDomainPage = () => {
     //Modal
     const [showModal, setShowModal] = useState(false);
     const [typeModal, setTypeModal] = useState("");
+    //Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+    const [ipDomainListByPage, setIpDomainListByPage] = useState([]);
+    const limit = 4;
+
+    const filterIPDomain = ipValue && listIPDomain.length > 0 ? listIPDomain.filter(item => item.origin.includes(ipValue)) : ipDomainListByPage;
 
     useEffect(() => {
         getAllIPDomain();
     }, []);
+
+    useEffect(() => {
+        if(listIPDomain) {
+            let totalPages = 0;
+            if(filterIPDomain.length === ipDomainListByPage.length) {
+                if(ipValue) {
+                    totalPages = Math.floor(filterIPDomain.length / limit) + 1;
+                }else {
+                    totalPages = Math.floor(listIPDomain.length / limit) + 1;
+                }
+            }else {
+                if(ipValue) {
+                    totalPages = Math.floor(filterIPDomain.length / limit) + 1;
+                }else {
+                    totalPages = Math.floor(listIPDomain.length / limit) + 1;
+                }
+            }
+            setTotalPage(totalPages);
+        }
+    }, [listIPDomain, ipValue, ipDomainListByPage]);
+
+    useEffect(() => {
+        if(listIPDomain) {
+            getIpDomainListByPage();
+        }
+    }, [currentPage])
+
+    const getIpDomainListByPage = async() => {
+        const response = await ipdomainService.getIpDomainServiceByPage(limit, currentPage);
+        if(response && response.status === 200) {
+            setIpDomainListByPage(response.data);
+        }
+    }
 
     const getAllIPDomain = async() => {
         try {
@@ -62,15 +103,13 @@ const IPDomainPage = () => {
         setShowModal(true);
     }
 
-    const filterIPDomain = ipValue && listIPDomain.length > 0 ? listIPDomain.filter(item => item.origin.includes(ipValue)) : listIPDomain;
+    
    
-
     return (
         <div className="ip-domain-page">
-            <Header />
             <div className="body">
                 <div className="title">
-                    <h1>MANAGE DOMAIN</h1>
+                    <h1>MANAGE PROXY</h1>
                 </div>
                 <div className="search-area">
                     <div className="search-bar">
@@ -83,7 +122,7 @@ const IPDomainPage = () => {
                 <IPDomainTable listIPDomain={filterIPDomain} onEditIPDomain={onEditIPDomain} onDeleteIPDomain={onDeleteIPDomain}/>
                 <ModalIPDomain showModal={showModal} handleClose={closeModal} typeModal={typeModal} refreshData={getAllIPDomain} ipDomainEdit={idDomainEditItem}/>
             </div>
-            
+            <Pagination className="pagination" style={{position: "fixed", backgroundColor: "white", visibility: `${listIPDomain.length <= limit ? 'hidden' : ''}`}} onChange={(event, value) => setCurrentPage(value)} count={totalPage}/>
         </div>
     )
 }
