@@ -58,7 +58,7 @@ const IPDomainTable = (props) => {
                             <td>
                                 <ButtonGeneral type="warning" content={<BiEditAlt style={{color: "white"}} />} onClickBtn={() => onClickEditBtn(ipdomainItem)}/>
                                 <ButtonGeneral type="danger" content={<BsTrash />} onClickBtn={() => onClickDeleteBtn(ipdomainItem)}/>
-                                <ButtonGeneral type="primary" content={<CiShare1 style={{color: "white"}} />} onClickBtn={() => onGotoLink(ipdomainItem?.origin)}/>
+                                <a href={`${import.meta.env.VITE_APP_BACKEND_DEPLOY_URL}${ipdomainItem?.origin}`} target="_blank" rel="noopener noreferrer"><ButtonGeneral type="primary" content={<CiShare1 style={{color: "white"}} />}/></a>
                             </td>
                         </tr>
                     ))}

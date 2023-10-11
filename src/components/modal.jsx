@@ -78,12 +78,13 @@ const ModalIPDomain = (props) => {
                                 alert("Add new node and target successfully!");
                                 handleCloseModal();
                                 refreshData();
-                                onCloseModalPassword();
                                 window.location.href = import.meta.env.VITE_APP_URL;
                             }
                         } catch (error) {
                             alert(error.response.data.msg);
+                            onCloseModalPassword();
                         }
+                        onCloseModalPassword();
                     }else if(typeModal === "edit") {
                         try {
                             let response = await IpdomainService.updateIPDomain(ipDomainEdit?._id, ipAddress, domainName, password);
@@ -91,12 +92,13 @@ const ModalIPDomain = (props) => {
                                 alert("Update info successfully!");
                                 handleCloseModal();
                                 refreshData();
-                                onCloseModalPassword();
                                 window.location.href = import.meta.env.VITE_APP_URL;
                             }
                         } catch (error) {
                             alert(error.response.data.msg);
+                            onCloseModalPassword();
                         }
+                        onCloseModalPassword();
                     }
                 }
             }
@@ -144,7 +146,7 @@ const ModalIPDomain = (props) => {
                         />
                     </Form.Group>
                 </Form>
-                :<p style={{fontSize: '1.4rem'}}>Do you want to delete this item ?</p>}
+                :<p style={{fontSize: '1.4rem'}}>Do you want to delete {ipDomainEdit?.origin}</p>}
             </Modal.Body>
             <Modal.Footer>
             <ButtonGeneral type="secondary" content="Close" onClickBtn={handleClose}></ButtonGeneral>
