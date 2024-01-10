@@ -26,22 +26,22 @@ const IPDomainPage = () => {
 
     useEffect(() => {
         getAllIPDomain();
-    }, []);
+    }, [ipValue]);
 
     useEffect(() => {
         if(listIPDomain) {
             let totalPages = 0;
             if(filterIPDomain.length === ipDomainListByPage.length) {
                 if(ipValue) {
-                    totalPages = Math.floor(filterIPDomain.length / limit) + 1;
+                    totalPages = Math.ceil(filterIPDomain.length / limit);
                 }else {
-                    totalPages = Math.floor(listIPDomain.length / limit) + 1;
+                    totalPages = Math.ceil(listIPDomain.length / limit);
                 }
             }else {
                 if(ipValue) {
-                    totalPages = Math.floor(filterIPDomain.length / limit) + 1;
+                    totalPages = Math.ceil(filterIPDomain.length / limit);
                 }else {
-                    totalPages = Math.floor(listIPDomain.length / limit) + 1;
+                    totalPages = Math.ceil(listIPDomain.length / limit);
                 }
             }
             setTotalPage(totalPages);
