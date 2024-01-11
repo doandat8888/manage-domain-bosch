@@ -1,11 +1,15 @@
 import axios from "../axios";
 
-const getAllIPDomain = () => {
-    return axios.get(`/proxy`);
+const getAllIPDomain = (limit, currentPage) => {
+    return axios.get(`/proxy?limit=${limit}&page=${currentPage}`);
 }
 
 const getIpDomainServiceByPage = (limit, currentPage) => {
     return axios.get(`/proxy?limit=${limit}&page=${currentPage}`)
+}
+
+const getIpDomainServiceByName = (limit, currentPage, ipValue) => {
+    return axios.get(`/proxy?limit=${limit}&page=${currentPage}&origin=${ipValue}`)
 }
 
 const addNewIPDomain = (origin, target, password) => {
@@ -38,5 +42,6 @@ export default {
     addNewIPDomain,
     updateIPDomain,
     deleteIPDomain,
-    getIpDomainServiceByPage
+    getIpDomainServiceByPage,
+    getIpDomainServiceByName
 }

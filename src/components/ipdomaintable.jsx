@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const IPDomainTable = (props) => {
 
+    // eslint-disable-next-line react/prop-types
     let {listIPDomain, onEditIPDomain, onDeleteIPDomain} = props;
     const [copied, setCopied]  = useState(false);
 
