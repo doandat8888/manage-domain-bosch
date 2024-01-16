@@ -10,6 +10,8 @@ import { Pagination } from '@mui/material'
 import ipdomainService from '../services/ipdomainService'
 import { TbHelpCircle } from 'react-icons/tb'
 import GuidelineModal from '../components/guidelineModal'
+import ModalPassword from '../components/modalPassword';
+import Variables from '../variables';
 
 const IPDomainPage = () => {
     const [listIPDomain, setListIPDomain] = useState([])
@@ -22,7 +24,9 @@ const IPDomainPage = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(0)
     const [total, setTotal] = useState(0)
+    const [password, setPassword] = useState("");
     const [showGuideModal, setShowGuideModal] = useState(false)
+    let [showModalPassword, setShowModalPassword] = useState(false);
     const limit = 10
 
     //let filterIPDomain = ipValue && listIPDomain.length > 0 ? listIPDomain.filter(item => item.origin.includes(ipValue)) : ipDomainListByPage;
@@ -117,7 +121,30 @@ const IPDomainPage = () => {
             setIpDomainEditItem(ipDomainDelete)
             setTypeModal('delete')
         }
-        setShowModal(true)
+        setShowModalPassword(true);
+    }
+
+    const onCloseModalPassword = () => {
+        setShowModalPassword(false);
+        setPassword("");
+    }
+
+    const handleDeleteIpDomain = async() => {
+        try {
+            // eslint-disable-next-line react/prop-types
+            let response = await IpdomainService.deleteIPDomain(idDomainEditItem?._id, password);
+            if (response && response.status === Variables.SUCCESS_DELETE) {
+                alert("Delete successfully!");
+                getAllIPDomain();
+                setShowModalPassword(false);
+                setPassword("");
+                window.location.reload();
+            }
+        } catch (error) {
+            alert(error.response.data.msg);
+            setShowModalPassword(false);
+            setPassword("");
+        }
     }
 
     return (
@@ -171,6 +198,7 @@ const IPDomainPage = () => {
                 onChange={(event, value) => setCurrentPage(value)}
                 count={totalPage}
             />
+            <ModalPassword password={password} onSetPassword={(value) => setPassword(value)} showModal={showModalPassword} handleClose={onCloseModalPassword} onHandleIpDomain={handleDeleteIpDomain}/>
         </div>
     )
 }
